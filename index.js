@@ -1,5 +1,5 @@
-var revelation = require('revelation-channel')
 var dWebChannel = require('@dwcore/channel')
+var flockCoreRevelation = require('@flockcore/channel')
 var events = require('events')
 var util = require('util')
 var net = require('net')
@@ -43,7 +43,7 @@ function Flock (opts) {
   this._stream = opts.stream
   this._options = opts || {}
   this._whitelist = opts.whitelist || []
-  this._revelation = null
+  this._flockCoreRevelation = null
   this._tcp = opts.tcp === false ? null : net.createServer().on('connection', onconnection)
   this._utp = opts.utp === false || !utp ? null : utp().on('connection', onconnection)
   this._tcpConnections = this._tcp && connections(this._tcp)
@@ -54,8 +54,8 @@ function Flock (opts) {
   this._peersSeen = {}
   this._peersQueued = []
 
-  if (this._options.revelation !== false) {
-    this.on('listening', this._ondiscover)
+  if (this._options.flockCoreRevelation !== false) {
+    this.on('listening', this._onrevelate)
   }
 
   function onconnection (connection) {
@@ -76,7 +76,7 @@ Flock.prototype.destroy = function (onclose) {
   if (this._listening && this._adding) return this.once('listening', this.destroy)
 
   this.destroyed = true
-  if (this._revelation) this._revelation.destroy()
+  if (this._flockCoreRevelation) this._flockCoreRevelation.destroy()
 
   var self = this
   var missing = 0
@@ -130,7 +130,7 @@ Flock.prototype.join = function (name, opts, cb) {
   } else {
     var port
     if (opts.announce) port = this.address().port
-    this._revelation.join(name, port, {impliedPort: opts.announce && !!this._utp}, cb)
+    this._flockCoreRevelation.join(name, port, {impliedPort: opts.announce && !!this._utp}, cb)
   }
 }
 
@@ -145,7 +145,7 @@ Flock.prototype.leave = function (name) {
       }
     }
   } else {
-    this._revelation.leave(name, this.address().port)
+    this._flockCoreRevelation.leave(name, this.address().port)
   }
 }
 
@@ -174,7 +174,7 @@ Flock.prototype.address = function () {
   return this._tcp ? this._tcp.address() : this._utp.address()
 }
 
-Flock.prototype._ondiscover = function () {
+Flock.prototype._onrevelate = function () {
   var self = this
   var joins = this._adding
 
@@ -187,9 +187,9 @@ Flock.prototype._ondiscover = function () {
     if (!this._options.dht || this._options.dht === true) this._options.dht = {}
     this._options.dht.socket = this._utp
   }
-  this._revelation = revelation(this._options)
-  this._revelation.on('peer', onpeer)
-  this._revelation.on('whoami', onwhoami)
+  this._flockCoreRevelation = flockCoreRevelation(this._options)
+  this._flockCoreRevelation.on('peer', onpeer)
+  this._flockCoreRevelation.on('whoami', onwhoami)
   this._adding = null
 
   if (!joins) return
@@ -391,8 +391,8 @@ Flock.prototype._onconnection = function (connection, type, peer) {
     clearTimeout(timeout)
     remoteIdHex = remoteId.toString('hex')
 
-    if (Buffer.isBuffer(connection.revelationKey) || Buffer.isBuffer(connection.channel)) {
-      var suffix = '@' + (connection.revelationKey || connection.channel).toString('hex')
+    if (Buffer.isBuffer(connection.flockCoreRevelationKey) || Buffer.isBuffer(connection.channel)) {
+      var suffix = '@' + (connection.flockCoreRevelationKey || connection.channel).toString('hex')
       remoteIdHex += suffix
       idHex += suffix
     }
