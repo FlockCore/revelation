@@ -1,0 +1,33 @@
+{
+  "name": "@flockcore/revelation",
+  "version": "0.1.1",
+  "description": "dWeb Network Flock That Utilizes FlockCore Servers To Find Peers.",
+  "contributors": [
+    "Jared Rice Sr. <jared@dwebs.io>",
+    "Distributed Webs Project, LLC. <labs@distributedwebs.org>"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard && tape test.js"
+  },
+  "dependencies": {
+    "@dwcore/channel": "dwcore/channel#master",
+    "@flockcore/channel": "flockcore/channel#master",
+    "buffer-equals": "^1.0.3",
+    "connections": "^1.4.2",
+    "debug": "^3.1.0",
+    "length-prefixed-message": "^3.0.3",
+    "to-buffer": "^1.0.1"
+  },
+  "optionalDependencies": {
+    "utp-native": "^1.7.0"
+  },
+  "devDependencies": {
+    "standard": "^11.0.1",
+    "tape": "^4.4.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
