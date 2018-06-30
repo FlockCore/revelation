@@ -1,6 +1,6 @@
 {
   "name": "@flockcore/revelation",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "dWeb Network Flock That Utilizes FlockCore Servers To Find Peers.",
   "contributors": [
     "Jared Rice Sr. <jared@dwebs.io>",
