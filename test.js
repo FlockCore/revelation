@@ -1,7 +1,7 @@
 var test = require('tape')
 var flock = require('./')
 
-test('flock destroys immediately', function (t) {
+test('FlockCore Revelation Tests: Flock Destroys Immediately.', function (t) {
   var s = flock({dht: false, utp: false})
   s.destroy(function () {
     t.ok(true, 'destroyed ok')
@@ -9,7 +9,7 @@ test('flock destroys immediately', function (t) {
   })
 })
 
-test('two flocks connect locally', function (t) {
+test('FlockCore Revelation Tests: Two Flocks Connect Locally', function (t) {
   var pending = 0
   var flocks = []
 
@@ -36,7 +36,7 @@ test('two flocks connect locally', function (t) {
   }
 })
 
-test('two flocks connect and exchange data (tcp)', function (t) {
+test('FlockCore Revelation Tests: Two Flocks Connect And Exchange Data (TCP)', function (t) {
   var a = flock({dht: false, utp: false})
   var b = flock({dht: false, utp: false})
 
@@ -62,7 +62,7 @@ test('two flocks connect and exchange data (tcp)', function (t) {
   b.join('test')
 })
 
-test('two flocks connect and exchange data (utp)', function (t) {
+test('FlockCore Revelation Tests: Two Flocks Connect And Exchange Data (UDP)', function (t) {
   var a = flock({dht: false, tcp: false})
   var b = flock({dht: false, tcp: false})
 
@@ -88,7 +88,7 @@ test('two flocks connect and exchange data (utp)', function (t) {
   b.join('test')
 })
 
-test('two flocks connect and callback', function (t) {
+test('FlockCore Revelation Tests: Two Flocks Connect And Callback', function (t) {
   var a = flock({dht: false, utp: false})
   var b = flock({dht: false, utp: false})
   var pending = 2
@@ -109,7 +109,7 @@ test('two flocks connect and callback', function (t) {
   }
 })
 
-test('connect many and send data', function (t) {
+test('FlockCore Revelation Tests: Connect Many And Send Data', function (t) {
   var runs = 10
   var outer = 0
   var flocks = []
@@ -142,7 +142,7 @@ test('connect many and send data', function (t) {
   }
 })
 
-test('socket should get destroyed on a bad peer', function (t) {
+test('FlockCore Revelation Tests: Socket Should Not Get Destroyed On A Bad Peer', function (t) {
   var s = flock({dht: false, utp: false})
 
   s.addPeer('test', 10003) // should not connect
@@ -164,7 +164,7 @@ test('socket should get destroyed on a bad peer', function (t) {
   }, 250)
 })
 
-test('flock should not connect to self', function (t) {
+test('FlockCore Revelation Tests: Flock Should Not Connect To Itself', function (t) {
   var s = flock({dht: false, utp: false})
 
   s.on('connection', function (connection, type) {
@@ -182,7 +182,7 @@ test('flock should not connect to self', function (t) {
   s.join('test')
 })
 
-test('flock ignore whitelist', function (t) {
+test('FlockCore Revelation Tests: Flock Ingores Whitelist', function (t) {
   var s = flock({dht: false, utp: false, whitelist: ['9.9.9.9']})
   var emitted = false
 
